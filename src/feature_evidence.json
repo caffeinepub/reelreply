@@ -1,0 +1,178 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-app-authentication-using-internet-identity-and-create-a-per-user-profile-record-keyed-by-principal-for-storing-instagram-integration-settings-and-automation-configuration",
+      "featureTitle": "Implement app authentication using Internet Identity, and create a per-user profile record keyed by Principal for storing Instagram integration settings and automation configuration.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/AuthButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/main.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-an-instagram-connection-flow-compatible-with-platform-constraints-allow-users-to-store-required-instagram-graph-api-credentials-e-g-instagram-user-page-ids-and-an-access-token-and-validate-them-by-performing-a-test-graph-api-call-clearly-label-that-the-app-supports-instagram-business-creator-accounts-only",
+      "featureTitle": "Add an Instagram connection flow compatible with platform constraints: allow users to store required Instagram Graph API credentials (e.g., Instagram User/Page IDs and an access token) and validate them by performing a test Graph API call; clearly label that the app supports Instagram Business/Creator accounts only.",
+      "files": [
+        "frontend/src/components/dashboard/InstagramConnectionSection.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-backend-storage-for-per-user-automation-settings-keyword-trigger-auto-reply-message-and-an-automation-on-off-flag-with-apis-to-read-update-these-values",
+      "featureTitle": "Create backend storage for per-user automation settings: keyword trigger, auto-reply message, and an automation ON/OFF flag, with APIs to read/update these values.",
+      "files": [
+        "frontend/src/components/dashboard/AutomationSettingsSection.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-store-and-expose-reply-logs-per-user-timestamp-triggering-keyword-comment-identifiers-text-snippet-reply-outcome-status-and-error-details-when-applicable-and-display-them-in-the-dashboard-with-basic-filtering",
+      "featureTitle": "Store and expose reply logs per user (timestamp, triggering keyword, comment identifiers/text snippet, reply outcome/status, and error details when applicable) and display them in the dashboard with basic filtering.",
+      "files": [
+        "frontend/src/components/dashboard/LogsSection.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-react-dashboard-ui-modern-saas-dark-theme-that-includes-instagram-connection-status-keyword-reply-editor-automation-toggle-and-logs-view-ensure-all-user-facing-text-is-in-english",
+      "featureTitle": "Create a React dashboard UI (modern SaaS, dark theme) that includes: Instagram connection status, keyword + reply editor, automation toggle, and logs view; ensure all user-facing text is in English.",
+      "files": [
+        "frontend/src/components/common/ErrorCallout.tsx",
+        "frontend/src/components/layout/DashboardLayout.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-coherent-visual-theme-distinct-from-default-templates-across-the-app-dark-charcoal-surfaces-high-contrast-typography-and-a-single-warm-accent-color-avoid-blue-purple-used-consistently-for-primary-actions-toggles-and-highlights",
+      "featureTitle": "Apply a coherent visual theme (distinct from default templates) across the app: dark charcoal surfaces, high-contrast typography, and a single warm accent color (avoid blue/purple), used consistently for primary actions, toggles, and highlights.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-compliance-oriented-ux-and-safeguards-display-a-notice-about-instagram-permissions-review-requirements-and-provide-a-test-mode-indicator-when-credentials-are-not-validated-avoid-storing-unnecessary-personal-data-beyond-what-is-required-for-the-automation-and-logs",
+      "featureTitle": "Add compliance-oriented UX and safeguards: display a notice about Instagram permissions/review requirements and provide a “Test Mode” indicator when credentials are not validated; avoid storing unnecessary personal data beyond what is required for the automation and logs.",
+      "files": [
+        "frontend/src/components/dashboard/ComplianceNotice.tsx",
+        "frontend/src/components/dashboard/InstagramConnectionSection.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-basic-brand-static-imagery-for-the-app-logo-empty-state-illustration-and-render-them-as-static-assets-under-frontend-public-assets-generated-referenced-by-the-dashboard",
+      "featureTitle": "Generate and include basic brand/static imagery for the app (logo + empty state illustration) and render them as static assets under frontend/public/assets/generated, referenced by the dashboard.",
+      "files": [
+        "frontend/src/components/dashboard/LogsSection.tsx",
+        "frontend/src/components/layout/DashboardHeader.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

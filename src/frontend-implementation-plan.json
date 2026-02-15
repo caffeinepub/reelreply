@@ -1,0 +1,232 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "ReelReply — Frontend dashboard with Internet Identity auth, Instagram credentials, automation settings, and logs",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity login/logout, protect dashboard access, and implement per-user profile setup UX keyed by Principal.",
+      "acceptanceCriteria": [
+        "Users can sign in and sign out with Internet Identity.",
+        "Unauthenticated users cannot access the dashboard routes or read/write settings/logs."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the app shell and routing, including a protected dashboard area gated by Internet Identity state. Use the authorization component's frontend guidance (Internet Identity + user profile setup flow) to ensure authenticated-only access; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/RequireAuth.tsx",
+          "operation": "create",
+          "description": "Add a reusable auth guard wrapper that blocks dashboard content for guests and renders a sign-in screen/state. Use the authorization component patterns for handling anonymous principals and authorization failures gracefully; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "create",
+          "description": "Implement first-login profile name collection (stored via getCallerUserProfile/saveCallerUserProfile) and prevent 'modal flash' by following the authorization component's recommended loading/isFetched pattern; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Create a react-query hook to fetch getCallerUserProfile via useActor, with loading semantics that avoid profile-setup UI flashing. Use the authorization component guidance for profile setup dependencies on the actor; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AuthButton.tsx",
+          "operation": "create",
+          "description": "Create a login/logout button using useInternetIdentity; on logout, clear cached application data (react-query) per the authorization component guidance; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Ensure the app renders the new App component and that auth/query providers remain correctly composed for protected-route and profile setup behavior. Use the authorization component guidance for clearing cached data on logout; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add Instagram credentials configuration UI with validation test and clear/update capability; label Business/Creator-only support.",
+      "acceptanceCriteria": [
+        "Dashboard includes an Instagram Connection section with fields for required identifiers and access token.",
+        "UI states explicitly that only Business/Creator accounts are supported (English copy).",
+        "Credentials are stored per user and can be updated/cleared."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/dashboard/InstagramConnectionSection.tsx",
+          "operation": "create",
+          "description": "Build the Instagram Connection section (igUserId, pageId, accessToken) with save/validate and clear actions, plus explicit English copy: Business/Creator accounts only. Use shadcn-ui form, input, button, and alert components to provide consistent SaaS UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useInstagramCredentials.ts",
+          "operation": "create",
+          "description": "Add react-query hooks to load credentials (getCredentials) and to validate/save credentials (validateCredentials), exposing success/failure state and error messaging for the section UI."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Wire the InstagramConnectionSection into the dashboard layout and ensure connection/validation status is clearly presented (Connected vs Test Mode) in English. Use shadcn-ui card, badge, and separator components for section structure; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add dashboard automation settings editor for keyword, auto-reply message, and ON/OFF toggle with validation and save.",
+      "acceptanceCriteria": [
+        "Frontend dashboard can load current settings and persist changes.",
+        "Empty/invalid settings (e.g., blank keyword or reply) are rejected with a clear error message."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/dashboard/AutomationSettingsSection.tsx",
+          "operation": "create",
+          "description": "Create an Automation Settings section with keyword input, reply message textarea, and enabled toggle, including inline validation and save states. Use shadcn-ui form controls, textarea, switch, and button components for a consistent experience; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useAutomationSettings.ts",
+          "operation": "create",
+          "description": "Implement react-query hooks to load (getAutomationSettings) and update (updateAutomationSettings) automation settings, surfacing backend failures as clear UI errors."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Add the AutomationSettingsSection to the dashboard and ensure it is only reachable when authenticated (via the app's auth guard). Use shadcn-ui layout primitives (cards/separators) as needed; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Display per-user reply logs in the dashboard with outcome filtering and an empty state.",
+      "acceptanceCriteria": [
+        "Frontend shows a Logs table with at least: time, match status, action (replied/skipped), result (success/fail), and brief details.",
+        "User can filter logs by outcome (e.g., Success / Failed / Skipped / Rate-limited)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/dashboard/LogsSection.tsx",
+          "operation": "create",
+          "description": "Implement a Logs section that fetches logs (getReplyLogs), renders a table (time, match status, action, result, details), and provides a simple outcome filter. Use shadcn-ui table, select, badge, and skeleton components to support a modern dashboard UX; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useReplyLogs.ts",
+          "operation": "create",
+          "description": "Create a react-query hook to load reply logs (getReplyLogs) and expose loading/error states for the Logs UI."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Wire the LogsSection into the dashboard and ensure the empty state illustration is displayed when no logs exist."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Build a modern dark-theme React dashboard UI with clear navigation/sections and robust loading/saving/validation states in English.",
+      "acceptanceCriteria": [
+        "Dashboard has clear navigation/sections for Connection, Automation Settings, and Logs.",
+        "All forms show loading/saving states and inline validation messages.",
+        "Dark theme is applied consistently across pages and components.",
+        "All labels, helper text, and error messages are in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Add top-level dashboard structure with a header (logo + auth button), clear section headings, and consistent loading/saving states for each section. Use shadcn-ui card, tabs or navigation primitives, and skeletons where appropriate; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/DashboardLayout.tsx",
+          "operation": "create",
+          "description": "Create a reusable dashboard layout (header, main container, section spacing) for a modern SaaS structure. Use shadcn-ui layout-friendly components (card/separator) where helpful; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/common/ErrorCallout.tsx",
+          "operation": "create",
+          "description": "Add a small shared error callout component to standardize inline error messaging across Connection/Settings/Logs. Use shadcn-ui alert components to keep styling consistent; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Apply a cohesive dark charcoal theme with high-contrast typography and a single warm accent color used consistently (no blue/purple accent).",
+      "acceptanceCriteria": [
+        "Primary buttons/links use the chosen warm accent color; neutrals are charcoal/gray.",
+        "Typography scale and spacing feel consistent across forms and tables.",
+        "No blue/purple is used as the primary accent color."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define global theme tokens (CSS variables) to enforce dark charcoal surfaces, high-contrast typography, and a warm accent (e.g., amber/orange) mapped to Tailwind/shadcn-ui token variables (primary/accent). Ensure the default accent is not blue/purple."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure dark mode is consistently applied (e.g., setting the required dark class at the app root) so all dashboard components render in the intended theme."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Add compliance-oriented UX: permission/review notice, Test Mode indicator when credentials are not validated, and data-minimization messaging.",
+      "acceptanceCriteria": [
+        "Dashboard includes a short compliance notice in English (permissions, webhook verification, and policy reminders).",
+        "UI clearly indicates whether Instagram credentials are validated/connected or not."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/dashboard/ComplianceNotice.tsx",
+          "operation": "create",
+          "description": "Create an English compliance notice component covering: official Graph API usage, webhook verification expectations, permissions/review considerations, and a reminder that the app stores only operational settings/logs (no passwords). Use shadcn-ui alert/callout styling; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/dashboard/InstagramConnectionSection.tsx",
+          "operation": "modify",
+          "description": "Add a clear 'Test Mode' (not validated) vs 'Connected' (validated) indicator derived from stored credentials.validation state, and ensure the UI avoids requesting/collecting unnecessary personal data. Use shadcn-ui badges/alerts for status; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Render the ComplianceNotice in the dashboard (e.g., near the top or within the Connection area) and ensure all copy remains English-only."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Add generated brand/static imagery (logo + logs empty state) under frontend/public/assets/generated and reference them in the dashboard.",
+      "acceptanceCriteria": [
+        "Generated images are placed in frontend/public/assets/generated and referenced directly by the frontend.",
+        "Dashboard header includes the generated logo.",
+        "Logs empty state uses the generated illustration when no items exist."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/reelreply-logo.dim_512x128.png",
+          "operation": "create",
+          "description": "Add the generated wordmark logo asset at the exact required path: frontend/public/assets/generated/reelreply-logo.dim_512x128.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/logs-empty-state.dim_1200x800.png",
+          "operation": "create",
+          "description": "Add the generated logs empty state illustration asset at the exact required path: frontend/public/assets/generated/logs-empty-state.dim_1200x800.png."
+        },
+        {
+          "path": "frontend/src/components/layout/DashboardHeader.tsx",
+          "operation": "create",
+          "description": "Create a dashboard header that renders the generated logo from frontend/public/assets/generated/reelreply-logo.dim_512x128.png and includes the auth button. Use shadcn-ui header-friendly primitives where helpful; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/dashboard/LogsSection.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/logs-empty-state.dim_1200x800.png in the logs empty state view when there are no log items, with English helper text."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Wire the new DashboardHeader into the dashboard layout so the logo is visible on the dashboard."
+        }
+      ]
+    }
+  ]
+}

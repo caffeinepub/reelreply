@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "ReelReply: a web app that auto-replies to Instagram Reel comments when a user-defined keyword is detected, using Instagram’s official Graph API with OAuth, webhooks, dashboard controls, logging, and compliance.",
+  "architectural_notes": [
+    "Use Instagram Graph API only (no unofficial endpoints).",
+    "Frontend: React + Tailwind; Backend: Node.js + Express; DB: MongoDB.",
+    "Hosting target: Vercel (frontend) + Railway/Render (backend)."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal wordmark logo reading \"ReelReply\" in a dark-theme friendly style (reelreply-logo.dim_512x128.png)\n- Dark theme empty state illustration featuring abstract chat bubbles and a reel/clapper motif (logs-empty-state.dim_1200x800.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-app-authentication-using-internet-identity-and-create-a-per-user-profile-record-keyed-by-principal-for-storing-instagram-integration-settings-and-automation-configuration",
+      "title": "Implement app authentication using Internet Identity, and create a per-user profile record keyed by Principal for storing Instagram integration settings and automation configuration.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-instagram-connection-flow-compatible-with-platform-constraints-allow-users-to-store-required-instagram-graph-api-credentials-e-g-instagram-user-page-ids-and-an-access-token-and-validate-them-by-performing-a-test-graph-api-call-clearly-label-that-the-app-supports-instagram-business-creator-accounts-only",
+      "title": "Add an Instagram connection flow compatible with platform constraints: allow users to store required Instagram Graph API credentials (e.g., Instagram User/Page IDs and an access token) and validate them by performing a test Graph API call; clearly label that the app supports Instagram Business/Creator accounts only.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-backend-storage-for-per-user-automation-settings-keyword-trigger-auto-reply-message-and-an-automation-on-off-flag-with-apis-to-read-update-these-values",
+      "title": "Create backend storage for per-user automation settings: keyword trigger, auto-reply message, and an automation ON/OFF flag, with APIs to read/update these values.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-store-and-expose-reply-logs-per-user-timestamp-triggering-keyword-comment-identifiers-text-snippet-reply-outcome-status-and-error-details-when-applicable-and-display-them-in-the-dashboard-with-basic-filtering",
+      "title": "Store and expose reply logs per user (timestamp, triggering keyword, comment identifiers/text snippet, reply outcome/status, and error details when applicable) and display them in the dashboard with basic filtering.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-react-dashboard-ui-modern-saas-dark-theme-that-includes-instagram-connection-status-keyword-reply-editor-automation-toggle-and-logs-view-ensure-all-user-facing-text-is-in-english",
+      "title": "Create a React dashboard UI (modern SaaS, dark theme) that includes: Instagram connection status, keyword + reply editor, automation toggle, and logs view; ensure all user-facing text is in English.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-coherent-visual-theme-distinct-from-default-templates-across-the-app-dark-charcoal-surfaces-high-contrast-typography-and-a-single-warm-accent-color-avoid-blue-purple-used-consistently-for-primary-actions-toggles-and-highlights",
+      "title": "Apply a coherent visual theme (distinct from default templates) across the app: dark charcoal surfaces, high-contrast typography, and a single warm accent color (avoid blue/purple), used consistently for primary actions, toggles, and highlights.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-compliance-oriented-ux-and-safeguards-display-a-notice-about-instagram-permissions-review-requirements-and-provide-a-test-mode-indicator-when-credentials-are-not-validated-avoid-storing-unnecessary-personal-data-beyond-what-is-required-for-the-automation-and-logs",
+      "title": "Add compliance-oriented UX and safeguards: display a notice about Instagram permissions/review requirements and provide a “Test Mode” indicator when credentials are not validated; avoid storing unnecessary personal data beyond what is required for the automation and logs.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-basic-brand-static-imagery-for-the-app-logo-empty-state-illustration-and-render-them-as-static-assets-under-frontend-public-assets-generated-referenced-by-the-dashboard",
+      "title": "Generate and include basic brand/static imagery for the app (logo + empty state illustration) and render them as static assets under frontend/public/assets/generated, referenced by the dashboard.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Instagram OAuth login (no password storage) restricted to Business/Creator accounts",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Webhook listener for new Instagram Reel comments via Instagram Webhooks",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Keyword detection on new comments and automated reply via official Graph API comment reply endpoint",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Persist per-user keyword trigger, auto-reply message, and automation ON/OFF state in database",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Dashboard UI (modern SaaS, dark theme) to configure keyword, reply message, and toggle automation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Rate limiting / protection to avoid API overuse and handle bursts safely",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Reply logs: store and display logs of replies sent (timestamp, comment, status)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Instagram API compliance handling (permissions, verification requirements, data handling constraints)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Implement an HTTP endpoint in the Motoko canister to receive Instagram Webhook callbacks for new comments, including the verification handshake and signature verification as required by Instagram, and route events to the correct user configuration.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "On receiving a new comment event, check the comment text for a user-defined keyword match and, when matched and automation is enabled, reply to the comment using Instagram’s official Graph API comment reply endpoint via HTTPS outcalls.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Implement rate limiting and burst protection for outgoing Instagram reply calls, including idempotency to avoid duplicate replies to the same comment event.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "ReelReply",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

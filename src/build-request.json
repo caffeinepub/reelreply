@@ -1,0 +1,236 @@
+{
+  "kind": "build_request",
+  "title": "ReelReply (IC build): Keyword-based auto-replies for Instagram Reel comments with dashboard, logs, and rate limiting",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement app authentication using Internet Identity, and create a per-user profile record keyed by Principal for storing Instagram integration settings and automation configuration.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2",
+          "msg-6",
+          "msg-7"
+        ],
+        "quotes": [
+          "Build a web application called “ReelReply”.",
+          "Users must log in via Instagram OAuth (no password storage).",
+          "build the same site i said to u"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can sign in and sign out with Internet Identity.",
+        "After first sign-in, a user record exists in the backend keyed by the caller Principal.",
+        "Unauthenticated users cannot access the dashboard routes or read/write settings/logs."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add an Instagram connection flow compatible with platform constraints: allow users to store required Instagram Graph API credentials (e.g., Instagram User/Page IDs and an access token) and validate them by performing a test Graph API call; clearly label that the app supports Instagram Business/Creator accounts only.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Only support Instagram Business/Creator accounts.",
+          "using Instagram’s official Graph API only."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard includes an Instagram Connection section with fields for required identifiers and access token.",
+        "On save, the backend performs a Graph API validation request (HTTP outcall) and returns success/failure with an error message.",
+        "UI states explicitly that only Business/Creator accounts are supported (English copy).",
+        "Credentials are stored per user and can be updated/cleared."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Create backend storage for per-user automation settings: keyword trigger, auto-reply message, and an automation ON/OFF flag, with APIs to read/update these values.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Store keyword and reply message in database.",
+          "Include dashboard where user can: Set keyword trigger, Set auto-reply message, Turn automation ON/OFF"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes authenticated methods to get and set: keyword, replyMessage, enabled.",
+        "Frontend dashboard can load current settings and persist changes.",
+        "Empty/invalid settings (e.g., blank keyword or reply) are rejected with a clear error message."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement an HTTP endpoint in the Motoko canister to receive Instagram Webhook callbacks for new comments, including the verification handshake and signature verification as required by Instagram, and route events to the correct user configuration.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Use Instagram Webhooks to listen for new comments."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Canister exposes an HTTP interface suitable for Instagram webhook verification (challenge response).",
+        "Incoming webhook POSTs are validated (verification/signature as applicable) and rejected when invalid.",
+        "Webhook payloads are parsed and normalized into a comment-event type used internally for processing.",
+        "Events that cannot be mapped to a configured user are safely ignored and logged as such."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "On receiving a new comment event, check the comment text for a user-defined keyword match and, when matched and automation is enabled, reply to the comment using Instagram’s official Graph API comment reply endpoint via HTTPS outcalls.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "When a new comment is posted: Check if it contains a predefined keyword (example: \"link\"). If matched, reply to that comment using the official comment reply endpoint."
+        ]
+      },
+      "acceptanceCriteria": [
+        "If automation is OFF, no replies are sent and a log entry indicates skipped due to disabled state.",
+        "If keyword does not match, no reply is sent and a log entry indicates no-match.",
+        "If keyword matches, backend issues a Graph API request to post a reply (official endpoint only).",
+        "Failures from Graph API are captured with HTTP status/error body (when available) in logs."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement rate limiting and burst protection for outgoing Instagram reply calls, including idempotency to avoid duplicate replies to the same comment event.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Implement rate limiting protection.",
+          "handle bursts safely"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend enforces a configurable per-user rate limit for reply attempts over time (e.g., per minute) and rejects/defers processing when exceeded.",
+        "Duplicate deliveries of the same comment event do not produce multiple replies (idempotency keyed by comment/event identifiers).",
+        "When rate limited, the system records a log entry with a rate-limited outcome."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Store and expose reply logs per user (timestamp, triggering keyword, comment identifiers/text snippet, reply outcome/status, and error details when applicable) and display them in the dashboard with basic filtering.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Show logs of replies sent."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend persists log entries per user and exposes a paginated query to fetch logs (newest first).",
+        "Frontend shows a Logs table with at least: time, match status, action (replied/skipped), result (success/fail), and brief details.",
+        "User can filter logs by outcome (e.g., Success / Failed / Skipped / Rate-limited)."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Create a React dashboard UI (modern SaaS, dark theme) that includes: Instagram connection status, keyword + reply editor, automation toggle, and logs view; ensure all user-facing text is in English.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Design: Modern SaaS dashboard, dark theme, clean UI."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard has clear navigation/sections for Connection, Automation Settings, and Logs.",
+        "All forms show loading/saving states and inline validation messages.",
+        "Dark theme is applied consistently across pages and components.",
+        "All labels, helper text, and error messages are in English."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Apply a coherent visual theme (distinct from default templates) across the app: dark charcoal surfaces, high-contrast typography, and a single warm accent color (avoid blue/purple), used consistently for primary actions, toggles, and highlights.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Modern SaaS dashboard, dark theme, clean UI."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Primary buttons/links use the chosen warm accent color; neutrals are charcoal/gray.",
+        "Typography scale and spacing feel consistent across forms and tables.",
+        "No blue/purple is used as the primary accent color."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Add compliance-oriented UX and safeguards: display a notice about Instagram permissions/review requirements and provide a “Test Mode” indicator when credentials are not validated; avoid storing unnecessary personal data beyond what is required for the automation and logs.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Follow all Instagram API compliance rules."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard includes a short compliance notice in English (permissions, webhook verification, and policy reminders).",
+        "Backend stores only the minimum fields needed for operation (settings + operational logs) and does not store passwords.",
+        "UI clearly indicates whether Instagram credentials are validated/connected or not."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Generate and include basic brand/static imagery for the app (logo + empty state illustration) and render them as static assets under frontend/public/assets/generated, referenced by the dashboard.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2",
+          "msg-7"
+        ],
+        "quotes": [
+          "Build a web application called “ReelReply”.",
+          "build the same site i said to u"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are placed in frontend/public/assets/generated and referenced directly by the frontend.",
+        "Dashboard header includes the generated logo.",
+        "Logs empty state uses the generated illustration when no items exist."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must be a single Motoko actor (no additional backend services).",
+    "Do not edit files under frontend/src/components/ui or other immutable paths defined by the platform.",
+    "Use Instagram’s official Graph API only for comment reads/replies (no unofficial scraping or private APIs).",
+    "Instagram OAuth as the app’s sign-in method is not available on this platform; use Internet Identity for app login and a separate Instagram connection/token configuration for Graph API access."
+  ],
+  "nonGoals": [
+    "Deploy to Vercel/Railway/Render or use Node.js/Express/MongoDB (not supported here).",
+    "Implement third-party authentication providers for app login (other than Internet Identity).",
+    "Real-time UI updates via WebSockets or push notifications."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal wordmark logo reading \"ReelReply\" in a dark-theme friendly style (reelreply-logo.dim_512x128.png)",
+      "Dark theme empty state illustration featuring abstract chat bubbles and a reel/clapper motif (logs-empty-state.dim_1200x800.png)"
+    ],
+    "edits": []
+  }
+}

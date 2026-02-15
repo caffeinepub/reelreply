@@ -1,0 +1,108 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T10:49:23.886Z",
+  "summary": "Diff implements a dark-themed React dashboard with Internet Identity login, per-user profile storage, credential/settings forms, compliance notice, and basic logs UI. However, key backend automation features (Graph API validation outcalls, Instagram webhook HTTP endpoint + verification/signature checks, comment processing + replies, rate limiting/idempotency behavior, and richer logs outcomes/pagination) are not evidenced in the provided diff summary. Some additional access-control/admin-token plumbing appears that was not requested.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Backend must validate Instagram Graph API credentials via a test Graph API HTTP outcall and return success/failure with error message; credentials can be updated/cleared.",
+      "reason": "The backend `validateCredentials` shown only marks credentials as validated and stores them; no HTTP outcall, no error handling, and no clear/update API is evidenced.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/dashboard/InstagramConnectionSection.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Expose Motoko canister HTTP endpoint for Instagram webhook callbacks including verification handshake and signature validation; parse/normalize events; ignore+log unmapped events.",
+      "reason": "No `http_request`/`http_request_update` webhook handler or verification/signature-check logic is evidenced in the backend snippet.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Process comment events: keyword match + enabled flag; reply via Instagram Graph API comment reply endpoint; log skipped/no-match/success/failure including HTTP status/body on failure.",
+      "reason": "No comment-event processing pipeline or Graph API reply outcall logic is evidenced in the backend snippet (only data types/maps and profile/settings methods are shown).",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Implement per-user rate limiting/burst protection for outgoing replies and idempotency to avoid duplicate replies; log rate-limited outcomes.",
+      "reason": "Although a `processedComments` map is declared, no demonstrated logic enforces rate limits, performs idempotency checks, or records rate-limited log outcomes in the visible backend code.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Persist reply logs per user and expose a paginated query (newest first); frontend logs table shows match status/action/result/details; filtering includes outcomes like Success/Failed/Skipped/Rate-limited.",
+      "reason": "Frontend filtering only supports `all/success/failed` and the backend log query is called `getReplyLogs()` with no evidence of pagination/newest-first ordering or richer outcome categories (skipped/rate-limited).",
+      "evidence": [
+        "frontend/src/components/dashboard/LogsSection.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Generated logo and empty-state illustration must be included as static assets under `frontend/public/assets/generated`.",
+      "reason": "Frontend references the assets, but the diff summary does not show the actual image files under `frontend/public/assets/generated` (and notes some added files were omitted), so their presence cannot be confirmed from the provided evidence.",
+      "evidence": [
+        "frontend/src/components/layout/DashboardHeader.tsx",
+        "frontend/src/components/dashboard/LogsSection.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Admin-token-based access control initialization via URL parameter (`caffeineAdminToken`) and `_initializeAccessControlWithSecret` call.",
+      "reason": "BuildRequest did not ask for an admin secret/token bootstrap mechanism or URL-based secret handling; authentication was specified as Internet Identity only for app login.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/utils/urlParams.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Mandatory collection of a user 'name' during profile setup.",
+      "reason": "BuildRequest requires a per-user profile keyed by Principal to store Instagram integration settings and automation config; it does not request collecting/storing a display name.",
+      "evidence": [
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/AuthButton.tsx",
+    "frontend/src/components/auth/ProfileSetupDialog.tsx",
+    "frontend/src/components/common/ErrorCallout.tsx",
+    "frontend/src/components/dashboard/AutomationSettingsSection.tsx",
+    "frontend/src/components/dashboard/ComplianceNotice.tsx",
+    "frontend/src/components/dashboard/InstagramConnectionSection.tsx",
+    "frontend/src/components/dashboard/LogsSection.tsx",
+    "frontend/src/components/layout/DashboardHeader.tsx",
+    "frontend/src/components/layout/DashboardLayout.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

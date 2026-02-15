@@ -1,0 +1,17 @@
+{
+  "frontend/src/App.tsx": "Main application component that handles routing between landing page and dashboard, manages Internet Identity authentication state, and enforces profile setup flow for new users.",
+  "frontend/src/pages/LandingPage.tsx": "Landing page component with hero section, feature highlights, and login call-to-action for unauthenticated users.",
+  "frontend/src/pages/DashboardPage.tsx": "Main dashboard page that composes all dashboard sections including compliance notice, Instagram connection, automation settings, and reply logs.",
+  "frontend/src/components/layout/DashboardLayout.tsx": "Reusable layout wrapper for dashboard pages with header, main content area, and footer.",
+  "frontend/src/components/layout/DashboardHeader.tsx": "Dashboard header component displaying the ReelReply logo and authentication button.",
+  "frontend/src/components/auth/AuthButton.tsx": "Logout button component that clears Internet Identity session and cached query data.",
+  "frontend/src/components/auth/ProfileSetupDialog.tsx": "First-time user profile setup dialog that collects user name and creates initial profile record with undefined optional fields instead of null.",
+  "frontend/src/components/dashboard/ComplianceNotice.tsx": "Alert component displaying Instagram API compliance information and requirements for Business/Creator accounts.",
+  "frontend/src/components/dashboard/InstagramConnectionSection.tsx": "Card section for managing Instagram credentials with validation, connection status indicators, and form inputs using undefined for optional lastValidation field.",
+  "frontend/src/components/dashboard/AutomationSettingsSection.tsx": "Card section for configuring automation settings including keyword trigger, auto-reply message, and enable/disable toggle.",
+  "frontend/src/components/dashboard/LogsSection.tsx": "Card section displaying reply logs table with filtering options, status badges, and empty state illustration.",
+  "frontend/src/components/common/ErrorCallout.tsx": "Reusable error alert component for displaying inline error messages consistently across the application.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations with proper null coalescing to handle optional return types from backend methods.",
+  "frontend/src/index.css": "Global styles with OKLCH color system using warm amber accent (hue 35) for primary actions on dark charcoal background.",
+  "frontend/tailwind.config.js": "Tailwind configuration with extended color tokens, border radius, and animation utilities matching the dark theme design system."
+}
